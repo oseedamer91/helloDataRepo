@@ -1,6 +1,8 @@
 from openpyxl import Workbook
 
 
+# basic excel operations
+
 class ExcelWriter:
 
     def __init__(self, excelFileName):
@@ -13,5 +15,3 @@ class ExcelWriter:
 
     def excelSave(self):
         self.workbook.save(self.excelName)
-
-
