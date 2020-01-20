@@ -94,9 +94,13 @@ class Util:
 
         firstMQY = 1
         approxTargetForYear = (len(monthQuarterYear) + 1) if len(monthQuarterYear) > 1 else 2
-        deltaTwo = self.calculateDelta(total, True)
-        deltaOne = self.calculateDelta(total, False, releaseMQY) - round(
-            random.uniform(0, approxTargetForYear) * deltaTwo)
+        #deltaTwo =  self.calculateDelta(total, True)
+        #deltaThree = #round(random.uniform(0, approxTargetForYear) * deltaTwo) * 0.1
+
+        numOfMQY = len(monthQuarterYear)
+        deltaOne = total / numOfMQY if releaseMQY < numOfMQY else 0  #self.calculateDelta(total, False, releaseMQY) - deltaThree
+        deltaTwo = deltaOne / (releaseMQY - numOfMQY)
+
         trackLastValue = 0
 
         for year in range(firstYear, lastYear):
@@ -105,9 +109,12 @@ class Util:
             if year == releasedYear:
                 for mqy in monthQuarterYear:
                     if mqy == releaseMQY:
-                        tempValue += deltaOne
+                        tempValue += (total - deltaOne)
                     elif mqy > releaseMQY:
-                        tempValue += deltaTwo
+                        if tempValue < total:
+                            tempValue += deltaTwo
+                        else:
+                            tempValue += deltaTwo
                     else:
                         tempValue = 0
                     yearValues.append(tempValue)
